@@ -1,3 +1,5 @@
+let Mascotas = [];
+
 function RegistrarMascota() {
     let nombre = prompt("Ingrese el nombre de la mascota:");
     let decision_Especie = prompt("1. Perro\n2. Gato\n3. Conejo\n4. Hamster\n5. Pez");
@@ -36,16 +38,53 @@ function RegistrarMascota() {
         return;
     }
 
-    mascota = {
+    const mascota = {
         nombre: nombre,
         Especie: Especie,
         edad: parseInt(edad),
         peso: peso
     }
 
+    Mascotas.push(mascota);
+
     alert(
         `Mascota registrada:\nNombre: ${nombre}\nEspecie: ${Especie}\nEdad: ${edad} años\nPeso: ${peso} kg`
     );
 }
-Mascotas = [];
-RegistrarMascota();
+
+function listarMascotas () {
+    if (Mascotas.length ===  0) {
+        alert("No hay mascotas registradas")
+        return;
+    }
+
+    let mensaje = "Lista de Mascotas Registradas:\n\n";
+    Mascotas.forEach((clave, valor) => {
+        mensaje += `${valor + 1}. ${clave.nombre} (${clave.Especie}) - Edad: ${clave.edad}, Peso: ${clave.peso}kg\n`;
+    });
+
+    alert(mensaje);
+}
+
+Mascotas = []
+let opcion;
+
+do {
+  opcion = parseInt(prompt("BIENVENIDO A MIS MASCOTAS\n1. Registrar mascota\n2. Listar mascotas"));
+
+  switch (opcion) {
+    case 1:
+        RegistrarMascota();
+        break;
+
+    case 2:
+        listarMascotas();
+        break;
+
+    default:
+      alert("Ingresó un número incorrecto");
+      break;
+  }
+
+
+} while (true);
