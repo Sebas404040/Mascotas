@@ -65,12 +65,24 @@ function listarMascotas () {
 
     alert(mensaje);
 }
+function buscarMascota () {
+    var nombreBuscado = prompt("Ingrese el nombre a buscar")
+    const arrayNombre = Mascotas.filter(p => p.nombre === nombreBuscado);
 
-Mascotas = []
+    if (arrayNombre.length === 0) {
+        alert("No se encontró ninguna mascota con ese nombre.");
+    } else {
+        let mensaje = "🐾 Mascotas encontradas:\n\n";
+        arrayNombre.forEach((m, index) => {
+            mensaje += `${index + 1}. ${m.nombre} (${m.Especie}) - Edad: ${m.edad}, Peso: ${m.peso}kg\n`;
+        });
+        alert(mensaje);
+    }
+}
 let opcion;
 
 do {
-  opcion = parseInt(prompt("BIENVENIDO A MIS MASCOTAS\n1. Registrar mascota\n2. Listar mascotas"));
+  opcion = parseInt(prompt("BIENVENIDO A MIS MASCOTAS\n1. Registrar mascota\n2. Listar mascotas\n3.Buscar por nombre"));
 
   switch (opcion) {
     case 1:
@@ -79,6 +91,10 @@ do {
 
     case 2:
         listarMascotas();
+        break;
+
+    case 3:
+        buscarMascota();
         break;
 
     default:
