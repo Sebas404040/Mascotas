@@ -1,5 +1,13 @@
 let Contador_Cedulas = 1;
 let Contador_Id_Mascotas = 1;
+let Contador_Id_Dueños = 1;
+
+function Generar_Id_Dueño(estructura_id = "ID_Dueño"){
+    const numero = String(Contador_Id_Dueños).padStart(3, "0");
+    const Id_Dueño = `${estructura_id}_${numero}`;
+    Contador_Id_Dueños++;
+    return Id_Dueño;
+} 
 
 function Generar_Cedula_Dueño(estructura_cedula = "Cedula"){
     const numero = String(Contador_Cedulas).padStart(3, "0");
