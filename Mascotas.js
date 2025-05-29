@@ -1,63 +1,81 @@
-let dueños = {};
-let Mascotas = {};
+let contadorIdDueños = 1;
+let contadorCedulas = 1;
+let contadorIdMascotas = 1;
 
-let Contador_Cedulas = 1;
-let Contador_Id_Mascotas = 1;
-let Contador_Id_Dueños = 1;
-const verificacion_Nombre = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+const soloLetras = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+const dueños = {};
+const Mascotas = {};
 
-
-function Generar_Id_Dueño(estructura_id = "ID_Dueño"){
-    const numero = String(Contador_Id_Dueños).padStart(3, "0");
-    const Id_Dueño = `${estructura_id}_${numero}`;
-    Contador_Id_Dueños++;
-    return Id_Dueño;
-} 
-
-function Generar_Cedula_Dueño(estructura_cedula = "Cedula"){
-    const numero = String(Contador_Cedulas).padStart(3, "0");
-    const Cedula = `${estructura_cedula}_${numero}`;
-    Contador_Cedulas++;
-    return Cedula;
-}   
-
-function Generar_Id_Mascota(estructura_id = "ID_Mascota"){
-    const numero = String(Contador_Id_Mascotas).padStart(3, "0");
-    const Id_Mascota = `${estructura_id}_${numero}`;
-    Contador_Id_Mascotas++;
-    return Id_Mascota;
+function generarIdDueño(prefijo = "") {
+    const numero = String(contadorIdDueños).padStart(3, "0");
+    const idDueño = `${prefijo}_${numero}`;
+    contadorIdDueños++;
+    return idDueño;
 }
 
-function Registrar_dueño(){
-    let Id_Dueño = Generar_Id_Dueño();
-    let cedula = Generar_Cedula_Dueño(); 
-    let nombre_Dueño = prompt("Ingrese el nombre del dueño");
-    if (!soloLetras.test(nombre_Dueño)) {
+function generarCedulaDueño(prefijo = "") {
+    const numero = String(contadorCedulas).padStart(3, "0");
+    const cedula = `${prefijo}${numero}`;
+    contadorCedulas++;
+    return cedula;
+}
+
+function generarIdMascota(prefijo = "ID_Mascota") {
+    const numero = String(contadorIdMascotas).padStart(3, "0");
+    const idMascota = `${prefijo}_${numero}`;
+    contadorIdMascotas++;
+    return idMascota;
+}
+
+function registrarDueño() {
+    const idDueño = generarIdDueño();
+    const cedula = generarCedulaDueño();
+
+    let nombreDueño = prompt("Ingrese el nombre del dueño");
+    if (nombreDueño === null || !soloLetras.test(nombreDueño.trim())) {
         alert("El nombre solo puede contener letras y espacios.");
         return;
     }
+
     let telefono = prompt("Ingrese el número de teléfono del dueño (formato: 1234567890)");
-    if (!/^\d{10}$/.test(telefono)) {
+    if (telefono === null || !/^\d{10}$/.test(telefono)) {
         alert("El número de teléfono debe tener 10 dígitos.");
         return;
     }
-    let correo_electronico = prompt("Ingrese el correo electrónico del dueño");
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo_electronico)) {
+
+    let correoElectronico = prompt("Ingrese el correo electrónico del dueño");
+    if (correoElectronico === null || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correoElectronico)) {
         alert("El correo electrónico no es válido.");
         return;
     }
+
     const dueño = {
-        Id_Dueño: Id_Dueño,
-        cedula: cedula,
-        nombre: nombre_Dueño,
-        telefono: telefono,
-        correo_electronico: correo_electronico
-    }
-    dueños[Id_Dueño] = dueño;
+        idDueño,
+        cedula,
+        nombre: nombreDueño.trim(),
+        telefono,
+        correoElectronico
+    };
+
+    dueños[idDueño] = dueño;
+    prompt(`Cédula: ${dueños[idDueño].cedula} \nID: ${dueños[idDueño].idDueño}`);
+    alert("Dueño registrado con éxito.");
+    
 }
 
+
 function RegistrarMascota() {
-    let Id_Mascota = Generar_Id_Mascota();
+    const verificacion_Nombre = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+    if (Object.keys(dueños).length === 0) {
+        alert("No hay dueños registrados. Por favor, registre un dueño primero.");
+        return;
+    }
+    let dueñoSeleccionado = prompt("Ingrese el ID del dueño de la mascota (ejemplo: _001):");
+    if (!dueños.hasOwnProperty(dueñoSeleccionado)) {
+        alert("Dueño no encontrado. Por favor, registre un dueño primero.");
+        return;
+    }
+    let Id_Mascota = generarIdMascota();
     let nombre = prompt("Ingrese el nombre de la mascota:");
     if (!verificacion_Nombre.test(nombre)) {
         alert("El nombre solo puede contener letras y espacios.");
@@ -126,55 +144,72 @@ function RegistrarMascota() {
             return; 
     }
     let Dueño = prompt("Ingrese la cedula del dueño de la mascota:");
-    if (!/^[0-9]{3}_[0-9]{3}$/.test(Dueño)) {
-        alert("La cédula debe tener el formato 'Cedula_001'.");
-        return;
-    }
+    if (!/^\d{3}$/.test(Dueño)) {
+    alert("La cédula debe tener el formato '001'.");
+    return;
+}
 
     const mascota = {
         nombre: nombre,
+        Id_Mascota: Id_Mascota,
         Especie: Especie,
         edad: parseInt(edad),
         peso: peso,
         salud: salud,
-        Dueño: Dueño
     }
 
-    Mascotas[Id_Mascota] = mascota;
+    Mascotas[dueñoSeleccionado] = mascota;
 }
 
-function listarMascotas () {
-    if (Mascotas.length ===  0) {
-        alert("No hay mascotas registradas")
+function listarMascotas() {
+    const lista = Object.values(Mascotas);
+
+    if (lista.length === 0) {
+        alert("No hay mascotas registradas");
         return;
     }
 
     let mensaje = "Lista de Mascotas Registradas:\n\n";
-    Mascotas.forEach((clave, valor) => {
-        mensaje += `${valor + 1}. ${clave.nombre} (${clave.Especie}) - Edad: ${clave.edad}, Peso: ${clave.peso}kg, estado: ${clave.salud}\n`;
+    lista.forEach((mascota, index) => {
+        mensaje += `${index + 1}. ${mascota.nombre} (${mascota.Especie}) - Edad: ${mascota.edad}, Peso: ${mascota.peso}kg, Estado: ${mascota.salud}\n`;
     });
 
     alert(mensaje);
 }
-function buscarMascota () {
-    var nombreBuscado = prompt("Ingrese el nombre a buscar")
-    const arrayNombre = Mascotas.filter(p => p.nombre === nombreBuscado);
 
-    if (arrayNombre.length === 0) {
+
+function buscarMascota() {
+    var nombreBuscado = prompt("Ingrese el nombre a buscar");
+    if (!nombreBuscado || !soloLetras.test(nombreBuscado.trim())) {
+        alert("El nombre solo puede contener letras y espacios.");
+        return;
+    }
+
+    const mascotasArray = Object.values(Mascotas);
+    const resultados = mascotasArray.filter(m => m.nombre === nombreBuscado.trim());
+
+    if (resultados.length === 0) {
         alert("No se encontró ninguna mascota con ese nombre.");
     } else {
         let mensaje = "Mascotas encontradas:\n\n";
-        arrayNombre.forEach((m, index) => {
-            mensaje += `${index + 1}. ${m.Id_Mascota} ${m.nombre} (${m.Especie}) - Edad: ${m.edad}, Peso: ${m.peso}kg, estado: ${m.salud}\n`;
+        resultados.forEach((m, index) => {
+            mensaje += `${index + 1}. ${m.Id_Mascota} ${m.nombre} (${m.Especie}) - Edad: ${m.edad}, Peso: ${m.peso}kg, Estado: ${m.salud}\n`;
         });
         alert(mensaje);
     }
 }
+
 function actualizarSaludMascota() {
     let nombreMascota = prompt("Ingrese el nombre de la mascota a actualizar:");
-    let mascotaEncontrada = Mascotas.find(m => m.nombre === nombreMascota);
+    if (!nombreMascota || !soloLetras.test(nombreMascota.trim())) {
+        alert("El nombre solo puede contener letras y espacios.");
+        return;
+    }
 
-    if (!mascotaEncontrada) {
+    const mascotasArray = Object.values(Mascotas);
+    let mascota = mascotasArray.find(m => m.nombre === nombreMascota.trim());
+
+    if (!mascota) {
         alert("No se encontró ninguna mascota con ese nombre.");
         return;
     }
@@ -182,30 +217,62 @@ function actualizarSaludMascota() {
     let nuevaSalud = prompt("Ingrese el nuevo estado de salud:\n1. Saludable\n2. Enfermo\n3. En tratamiento");
     switch (nuevaSalud) {
         case "1":
-            mascotaEncontrada.salud = "Saludable";
+            mascota.salud = "Saludable";
             break;
         case "2":
-            mascotaEncontrada.salud = "Enfermo";
+            mascota.salud = "Enfermo";
             break;
         case "3":
-            mascotaEncontrada.salud = "En tratamiento";
+            mascota.salud = "En tratamiento";
             break;
         default:
             alert("Opción no válida. Por favor, elige un estado de salud válido.");
-            return; 
+            return;
     }
 
-    alert(`Estado de salud actualizado para ${mascotaEncontrada.Id_Mascota} ${mascotaEncontrada.nombre}: ${mascotaEncontrada.salud}`);
+    alert(`Estado de salud actualizado para ${mascota.Id_Mascota} ${mascota.nombre}: ${mascota.salud}`);
 }
+
 let opcion;
 
+function eliminar_mascota() {
+    let nombreMascota = prompt("Ingrese el nombre de la mascota a eliminar:");
+    if (!nombreMascota || !soloLetras.test(nombreMascota.trim())) {
+        alert("El nombre solo puede contener letras y espacios.");
+        return;
+    }
+
+    let mascotaEncontrada = null;
+    let claveAEliminar = null;
+
+    for (const clave in Mascotas) {
+        if (Mascotas[clave].nombre === nombreMascota.trim()) {
+            mascotaEncontrada = Mascotas[clave];
+            claveAEliminar = clave;
+            break;
+        }
+    }
+
+    if (!claveAEliminar) {
+        alert("No se encontró ninguna mascota con ese nombre.");
+        return;
+    }
+
+    const confirmar = confirm(`¿Está seguro que desea eliminar a ${mascotaEncontrada.nombre}?`);
+    if (confirmar) {
+        delete Mascotas[claveAEliminar];
+        alert(`Mascota ${mascotaEncontrada.nombre} eliminada correctamente.`);
+    }
+}
+
+
 do {
-    opcion = parseInt(prompt("BIENVENIDO A MIS MASCOTAS\n1. Registrar mascota\n2. Listar mascotas\n3. Buscar por nombre\n4. Actualizar salud de mascota"));
+    opcion = parseInt(prompt("BIENVENIDO A MIS MASCOTAS\n1. Registrar Dueño\n2. Registrar mascota\n3. Listar mascotas\n4. Buscar mascota\n5. Actualizar estado de salud de una mascota\n6. Eliminar mascota\n7. Salir"));
 
 
   switch (opcion) {
     case 1:
-        Registrar_dueño();
+        registrarDueño();
         break;
 
     case 2:
@@ -215,14 +282,21 @@ do {
     case 3:
         listarMascotas();
         break;
-
+    
     case 4:
-        actualizarSaludMascota();
+        buscarMascota();
         break;
     
     case 5:
-            
+        actualizarSaludMascota();
+        break;
 
+    case 6:
+        eliminar_mascota();
+        break;
+
+    case 7:
+      break;
 
     default:
       alert("Ingresó un número incorrecto");
@@ -230,4 +304,5 @@ do {
   }
 
 
-} while (true);
+} while (opcion !== 7);
+alert("Gracias por usar mi programa, hasta luego!, fuerza G");
