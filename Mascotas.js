@@ -1,3 +1,5 @@
+
+
 let Mascotas = [];
 
 function RegistrarMascota() {
@@ -38,11 +40,32 @@ function RegistrarMascota() {
         return;
     }
 
+    let desicion_salud = prompt("1. Saludable\n2. Enfermo\n3. En tratamiento");
+    let salud = "";
+    switch (desicion_salud) {
+        case "1":
+            salud = "Saludable";
+            alert("Has seleccionado Saludable");
+            break;
+        case "2":
+            salud = "Enfermo";
+            alert("Has seleccionado Enfermo");
+            break;
+        case "3":
+            salud = "En tratamiento";
+            alert("Has seleccionado En tratamiento");
+            break;
+        default:
+            alert("Opción no válida. Por favor, elige un estado de salud válido.");
+            return; 
+    }
+
     const mascota = {
         nombre: nombre,
         Especie: Especie,
         edad: parseInt(edad),
-        peso: peso
+        peso: peso,
+        salud: salud
     }
 
     Mascotas.push(mascota);
@@ -60,7 +83,7 @@ function listarMascotas () {
 
     let mensaje = "Lista de Mascotas Registradas:\n\n";
     Mascotas.forEach((clave, valor) => {
-        mensaje += `${valor + 1}. ${clave.nombre} (${clave.Especie}) - Edad: ${clave.edad}, Peso: ${clave.peso}kg\n`;
+        mensaje += `${valor + 1}. ${clave.nombre} (${clave.Especie}) - Edad: ${clave.edad}, Peso: ${clave.peso}kg, estado: ${clave.salud}\n`;
     });
 
     alert(mensaje);
@@ -74,15 +97,43 @@ function buscarMascota () {
     } else {
         let mensaje = "🐾 Mascotas encontradas:\n\n";
         arrayNombre.forEach((m, index) => {
-            mensaje += `${index + 1}. ${m.nombre} (${m.Especie}) - Edad: ${m.edad}, Peso: ${m.peso}kg\n`;
+            mensaje += `${index + 1}. ${m.nombre} (${m.Especie}) - Edad: ${m.edad}, Peso: ${m.peso}kg, estado: ${m.salud}\n`;
         });
         alert(mensaje);
     }
 }
+function actualizarSaludMascota() {
+    let nombreMascota = prompt("Ingrese el nombre de la mascota a actualizar:");
+    let mascotaEncontrada = Mascotas.find(m => m.nombre === nombreMascota);
+
+    if (!mascotaEncontrada) {
+        alert("No se encontró ninguna mascota con ese nombre.");
+        return;
+    }
+
+    let nuevaSalud = prompt("Ingrese el nuevo estado de salud:\n1. Saludable\n2. Enfermo\n3. En tratamiento");
+    switch (nuevaSalud) {
+        case "1":
+            mascotaEncontrada.salud = "Saludable";
+            break;
+        case "2":
+            mascotaEncontrada.salud = "Enfermo";
+            break;
+        case "3":
+            mascotaEncontrada.salud = "En tratamiento";
+            break;
+        default:
+            alert("Opción no válida. Por favor, elige un estado de salud válido.");
+            return; 
+    }
+
+    alert(`Estado de salud actualizado para ${mascotaEncontrada.nombre}: ${mascotaEncontrada.salud}`);
+}
 let opcion;
 
 do {
-  opcion = parseInt(prompt("BIENVENIDO A MIS MASCOTAS\n1. Registrar mascota\n2. Listar mascotas\n3.Buscar por nombre"));
+    opcion = parseInt(prompt("BIENVENIDO A MIS MASCOTAS\n1. Registrar mascota\n2. Listar mascotas\n3. Buscar por nombre\n4. Actualizar salud de mascota"));
+
 
   switch (opcion) {
     case 1:
@@ -96,6 +147,11 @@ do {
     case 3:
         buscarMascota();
         break;
+
+    case 4:
+        actualizarSaludMascota();
+        break;        
+
 
     default:
       alert("Ingresó un número incorrecto");
