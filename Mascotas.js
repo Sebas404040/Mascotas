@@ -1,6 +1,37 @@
+let Contador_Cedulas = 1;
+
+function Generar_Cedula_Dueño(estructura_cedula = "Cedula"){
+    const numero = String(Contador_Cedulas).padStart(3, "0");
+    const Cedula = `${estructura_cedula}_${numero}`;
+    return Cedula;
+}
 
 
+
+
+
+
+
+let dueños = []
 let Mascotas = [];
+
+function Registrar_dueño(){
+    let cedula = 
+    let nombre_Dueño = prompt("Ingrese el nombre del dueño")
+    let 
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 function RegistrarMascota() {
     let nombre = prompt("Ingrese el nombre de la mascota:");
