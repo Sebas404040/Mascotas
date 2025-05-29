@@ -1,3 +1,6 @@
+let dueños = {};
+let Mascotas = {};
+
 let Contador_Cedulas = 1;
 let Contador_Id_Mascotas = 1;
 let Contador_Id_Dueños = 1;
@@ -25,9 +28,6 @@ function Generar_Id_Mascota(estructura_id = "ID_Mascota"){
     return Id_Mascota;
 }
 
-let dueños = []
-let Mascotas = [];
-
 function Registrar_dueño(){
     let Id_Dueño = Generar_Id_Dueño();
     let cedula = Generar_Cedula_Dueño(); 
@@ -46,9 +46,14 @@ function Registrar_dueño(){
         alert("El correo electrónico no es válido.");
         return;
     }
-    dueño {
-        iiid
+    const dueño = {
+        Id_Dueño: Id_Dueño,
+        cedula: cedula,
+        nombre: nombre_Dueño,
+        telefono: telefono,
+        correo_electronico: correo_electronico
     }
+    dueños[Id_Dueño] = dueño;
 }
 
 function RegistrarMascota() {
@@ -136,10 +141,6 @@ function RegistrarMascota() {
     }
 
     Mascotas[Id_Mascota] = mascota;
-
-    alert(
-        `Mascota registrada:\nNombre: ${nombre}\nEspecie: ${Especie}\nEdad: ${edad} años\nPeso: ${peso} kg`
-    );
 }
 
 function listarMascotas () {
@@ -162,9 +163,9 @@ function buscarMascota () {
     if (arrayNombre.length === 0) {
         alert("No se encontró ninguna mascota con ese nombre.");
     } else {
-        let mensaje = "🐾 Mascotas encontradas:\n\n";
+        let mensaje = "Mascotas encontradas:\n\n";
         arrayNombre.forEach((m, index) => {
-            mensaje += `${index + 1}. ${m.nombre} (${m.Especie}) - Edad: ${m.edad}, Peso: ${m.peso}kg, estado: ${m.salud}\n`;
+            mensaje += `${index + 1}. ${m.Id_Mascota} ${m.nombre} (${m.Especie}) - Edad: ${m.edad}, Peso: ${m.peso}kg, estado: ${m.salud}\n`;
         });
         alert(mensaje);
     }
@@ -194,7 +195,7 @@ function actualizarSaludMascota() {
             return; 
     }
 
-    alert(`Estado de salud actualizado para ${mascotaEncontrada.nombre}: ${mascotaEncontrada.salud}`);
+    alert(`Estado de salud actualizado para ${mascotaEncontrada.Id_Mascota} ${mascotaEncontrada.nombre}: ${mascotaEncontrada.salud}`);
 }
 let opcion;
 
@@ -204,20 +205,23 @@ do {
 
   switch (opcion) {
     case 1:
-        RegistrarMascota();
+        Registrar_dueño();
         break;
 
     case 2:
-        listarMascotas();
+        RegistrarMascota();
         break;
 
     case 3:
-        buscarMascota();
+        listarMascotas();
         break;
 
     case 4:
         actualizarSaludMascota();
-        break;        
+        break;
+    
+    case 5:
+            
 
 
     default:
