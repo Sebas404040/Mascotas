@@ -1,6 +1,8 @@
 let Contador_Cedulas = 1;
 let Contador_Id_Mascotas = 1;
 let Contador_Id_Dueños = 1;
+const verificacion_Nombre = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+
 
 function Generar_Id_Dueño(estructura_id = "ID_Dueño"){
     const numero = String(Contador_Id_Dueños).padStart(3, "0");
@@ -27,25 +29,35 @@ let dueños = []
 let Mascotas = [];
 
 function Registrar_dueño(){
+    let Id_Dueño = Generar_Id_Dueño();
     let cedula = Generar_Cedula_Dueño(); 
     let nombre_Dueño = prompt("Ingrese el nombre del dueño");
-    let 
+    if (!soloLetras.test(nombre_Dueño)) {
+        alert("El nombre solo puede contener letras y espacios.");
+        return;
+    }
+    let telefono = prompt("Ingrese el número de teléfono del dueño (formato: 1234567890)");
+    if (!/^\d{10}$/.test(telefono)) {
+        alert("El número de teléfono debe tener 10 dígitos.");
+        return;
+    }
+    let correo_electronico = prompt("Ingrese el correo electrónico del dueño");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo_electronico)) {
+        alert("El correo electrónico no es válido.");
+        return;
+    }
+    dueño {
+        iiid
+    }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 function RegistrarMascota() {
+    let Id_Mascota = Generar_Id_Mascota();
     let nombre = prompt("Ingrese el nombre de la mascota:");
+    if (!verificacion_Nombre.test(nombre)) {
+        alert("El nombre solo puede contener letras y espacios.");
+        return;
+    }
     let decision_Especie = prompt("1. Perro\n2. Gato\n3. Conejo\n4. Hamster\n5. Pez");
     let Especie = "";
     switch (decision_Especie) {
@@ -73,9 +85,16 @@ function RegistrarMascota() {
             alert("Opción no válida. Por favor, elige una especie válida.");
             return; 
     }
-
     let edad = prompt("Ingrese la edad de la mascota (en años):");
+    if (isNaN(edad) || edad < 0 || edad > 50) {
+        alert("ERROR: La edad debe ser un número entre 0 y 50 años.");
+        return;
+    }
     let peso = prompt("Ingrese el peso de la mascota (en kg):");
+    if (peso === null || peso.trim() === "") {
+        alert("ERROR: El peso no puede estar vacío.");
+        return;
+    }
     peso = parseFloat(peso);
     if (peso < 0 || peso >= 500 || isNaN(peso)) {
         alert("ERROR: El peso debe ser un número positivo y menor a 500 kg.");
@@ -101,16 +120,22 @@ function RegistrarMascota() {
             alert("Opción no válida. Por favor, elige un estado de salud válido.");
             return; 
     }
+    let Dueño = prompt("Ingrese la cedula del dueño de la mascota:");
+    if (!/^[0-9]{3}_[0-9]{3}$/.test(Dueño)) {
+        alert("La cédula debe tener el formato 'Cedula_001'.");
+        return;
+    }
 
     const mascota = {
         nombre: nombre,
         Especie: Especie,
         edad: parseInt(edad),
         peso: peso,
-        salud: salud
+        salud: salud,
+        Dueño: Dueño
     }
 
-    Mascotas.push(mascota);
+    Mascotas[Id_Mascota] = mascota;
 
     alert(
         `Mascota registrada:\nNombre: ${nombre}\nEspecie: ${Especie}\nEdad: ${edad} años\nPeso: ${peso} kg`
