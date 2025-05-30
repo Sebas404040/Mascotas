@@ -1,3 +1,7 @@
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 let contadorIdDueños = 1;
 let contadorCedulas = 1;
 let contadorIdMascotas = 1;
@@ -27,26 +31,26 @@ function generarIdMascota(prefijo = "ID_Mascota") {
     return idMascota;
 }
 
-function registrarDueño() {
+async function registrarDueño() {
     const idDueño = generarIdDueño();
     const cedula = generarCedulaDueño();
 
     let nombreDueño = prompt("Ingrese el nombre del dueño");
     if (nombreDueño === null || !soloLetras.test(nombreDueño.trim())) {
         alert("El nombre solo puede contener letras y espacios.");
-        return;
+        return null;
     }
 
     let telefono = prompt("Ingrese el número de teléfono del dueño (formato: 1234567890)");
     if (telefono === null || !/^\d{10}$/.test(telefono)) {
         alert("El número de teléfono debe tener 10 dígitos.");
-        return;
+        return null;
     }
 
     let correoElectronico = prompt("Ingrese el correo electrónico del dueño");
     if (correoElectronico === null || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correoElectronico)) {
         alert("El correo electrónico no es válido.");
-        return;
+        return null;
     }
 
     const dueño = {
@@ -57,12 +61,14 @@ function registrarDueño() {
         correoElectronico
     };
 
+    await new Promise(resolve => setTimeout(resolve, 1500));
     dueños[idDueño] = dueño;
-    prompt(`Cédula: ${dueños[idDueño].cedula} \nID: ${dueños[idDueño].idDueño}`);
-    alert("Dueño registrado con éxito.");
-    
-}
 
+    prompt(`Cédula: ${cedula} \nID: ${idDueño}`);
+    alert("Dueño registrado con éxito.");
+
+    await delay(1500);
+}
 
 function RegistrarMascota() {
 
@@ -289,45 +295,42 @@ function listarMascotasDueño() {
 
 
 
-do {
-    opcion = parseInt(prompt("BIENVENIDO A MIS MASCOTAS\n1. Registrar Dueño\n2. Registrar mascota\n3. Listar mascotas\n4. Buscar mascota\n5. Actualizar estado de salud de una mascota\n6. Eliminar mascota\n7. Listar mascotas por dueño\n8. Salir"));
+async function menuPrincipal() {
+  let opcion;
+  do {
+      opcion = parseInt(prompt("BIENVENIDO A MIS MASCOTAS\n1. Registrar Dueño\n2. Registrar mascota\n3. Listar mascotas\n4. Buscar mascota\n5. Actualizar estado de salud de una mascota\n6. Eliminar mascota\n7. Listar mascotas por dueño\n8. Salir"));
 
+      switch (opcion) {
+          case 1:
+              await registrarDueño();
+              break;
+          case 2:
+              RegistrarMascota();
+              break;
+          case 3:
+              listarMascotas();
+              break;
+          case 4:
+              buscarMascota();
+              break;
+          case 5:
+              actualizarSaludMascota();
+              break;
+          case 6:
+              eliminar_mascota();
+              break;
+          case 7:
+              listarMascotasDueño();
+              break;
+          case 8:
+              alert("Gracias por usar mi programa, hasta luego!, fuerza G");
+              break;
+          default:
+              alert("Ingresó un número incorrecto");
+              break;
+      }
 
+  } while (opcion !== 8);
+}
 
-  switch (opcion) {
-    case 1:
-        registrarDueño();
-        break;
-
-    case 2:
-        RegistrarMascota();
-        break;
-
-    case 3:
-        listarMascotas();
-        break;
-    
-    case 4:
-        buscarMascota();
-        break;
-    
-    case 5:
-        actualizarSaludMascota();
-        break;
-
-    case 6:
-        eliminar_mascota();
-        break;
-
-    case 7:
-        listarMascotasDueño();
-      break;
-
-    default:
-      alert("Ingresó un número incorrecto");
-      break;
-  }
-
-
-} while (opcion !== 8);
-alert("Gracias por usar mi programa, hasta luego!, fuerza G");
+menuPrincipal();
