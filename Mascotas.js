@@ -65,6 +65,7 @@ function registrarDueño() {
 
 
 function RegistrarMascota() {
+
     const verificacion_Nombre = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
     if (Object.keys(dueños).length === 0) {
         alert("No hay dueños registrados. Por favor, registre un dueño primero.");
@@ -158,7 +159,8 @@ function RegistrarMascota() {
         salud: salud,
     }
 
-    Mascotas[Id_Mascota] = { ...mascota, idDueño };
+    Mascotas[Id_Mascota] = { ...mascota, idDueño: dueñoSeleccionado };
+
 
 }
 
@@ -288,7 +290,8 @@ function listarMascotasDueño() {
 
 
 do {
-    opcion = parseInt(prompt("BIENVENIDO A MIS MASCOTAS\n1. Registrar Dueño\n2. Registrar mascota\n3. Listar mascotas\n4. Buscar mascota\n5. Actualizar estado de salud de una mascota\n6. Eliminar mascota\n7. Salir"));
+    opcion = parseInt(prompt("BIENVENIDO A MIS MASCOTAS\n1. Registrar Dueño\n2. Registrar mascota\n3. Listar mascotas\n4. Buscar mascota\n5. Actualizar estado de salud de una mascota\n6. Eliminar mascota\n7. Listar mascotas por dueño\n8. Salir"));
+
 
 
   switch (opcion) {
