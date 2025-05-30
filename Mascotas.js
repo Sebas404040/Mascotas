@@ -283,7 +283,7 @@ async function eliminar_mascota() {
 }
 
 async function listarMascotasDueño() {
-    
+    await new Promise(resolve => setTimeout(resolve, 2000));
     let idDueño = prompt("Ingrese el ID del dueño (ejemplo: _001):");
 
     const mascotasArray = Object.values(Mascotas);
@@ -295,6 +295,7 @@ async function listarMascotasDueño() {
     }
 
     let mensaje = `Mascotas del dueño ${idDueño}:\n\n`;
+    await delay(2000);
     mascotasDelDueño.forEach((m, index) => {
         mensaje += `${index + 1}. ${m.nombre} (${m.Especie}) - Edad: ${m.edad}, Peso: ${m.peso}kg, Estado: ${m.salud}\n`;
     });
