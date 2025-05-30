@@ -158,7 +158,8 @@ function RegistrarMascota() {
         salud: salud,
     }
 
-    Mascotas[dueñoSeleccionado] = mascota;
+    Mascotas[Id_Mascota] = { ...mascota, idDueño };
+
 }
 
 function listarMascotas() {
@@ -265,6 +266,26 @@ function eliminar_mascota() {
     }
 }
 
+function listarMascotasDueño() {
+    let idDueño = prompt("Ingrese el ID del dueño (ejemplo: _001):");
+
+    const mascotasArray = Object.values(Mascotas);
+    const mascotasDelDueño = mascotasArray.filter(m => m.idDueño === idDueño);
+
+    if (mascotasDelDueño.length === 0) {
+        alert("Este dueño no tiene mascotas registradas.");
+        return;
+    }
+
+    let mensaje = `Mascotas del dueño ${idDueño}:\n\n`;
+    mascotasDelDueño.forEach((m, index) => {
+        mensaje += `${index + 1}. ${m.nombre} (${m.Especie}) - Edad: ${m.edad}, Peso: ${m.peso}kg, Estado: ${m.salud}\n`;
+    });
+
+    alert(mensaje);
+}
+
+
 
 do {
     opcion = parseInt(prompt("BIENVENIDO A MIS MASCOTAS\n1. Registrar Dueño\n2. Registrar mascota\n3. Listar mascotas\n4. Buscar mascota\n5. Actualizar estado de salud de una mascota\n6. Eliminar mascota\n7. Salir"));
@@ -296,6 +317,7 @@ do {
         break;
 
     case 7:
+
       break;
 
     default:
@@ -304,5 +326,5 @@ do {
   }
 
 
-} while (opcion !== 7);
+} while (opcion !== 8);
 alert("Gracias por usar mi programa, hasta luego!, fuerza G");
