@@ -70,13 +70,16 @@ async function registrarDueño() {
     await delay(1500);
 }
 
-function RegistrarMascota() {
-
+async function RegistrarMascota() {
+    
     const verificacion_Nombre = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
     if (Object.keys(dueños).length === 0) {
         alert("No hay dueños registrados. Por favor, registre un dueño primero.");
         return;
     }
+    await delay(1500);
     let dueñoSeleccionado = prompt("Ingrese el ID del dueño de la mascota (ejemplo: _001):");
     if (!dueños.hasOwnProperty(dueñoSeleccionado)) {
         alert("Dueño no encontrado. Por favor, registre un dueño primero.");
@@ -305,7 +308,7 @@ async function menuPrincipal() {
               await registrarDueño();
               break;
           case 2:
-              RegistrarMascota();
+              await RegistrarMascota();
               break;
           case 3:
               listarMascotas();
