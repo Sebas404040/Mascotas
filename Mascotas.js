@@ -317,7 +317,7 @@ do {
         break;
 
     case 7:
-
+        listarMascotasDueño();
       break;
 
     default:
