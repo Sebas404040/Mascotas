@@ -73,13 +73,13 @@ async function registrarDueño() {
 async function RegistrarMascota() {
     
     const verificacion_Nombre = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     if (Object.keys(dueños).length === 0) {
         alert("No hay dueños registrados. Por favor, registre un dueño primero.");
         return;
     }
-    await delay(1500);
+    await delay(2000);
     let dueñoSeleccionado = prompt("Ingrese el ID del dueño de la mascota (ejemplo: _001):");
     if (!dueños.hasOwnProperty(dueñoSeleccionado)) {
         alert("Dueño no encontrado. Por favor, registre un dueño primero.");
@@ -173,14 +173,14 @@ async function RegistrarMascota() {
 
 }
 
-function listarMascotas() {
+async function listarMascotas() {
+    await new Promise(resolve => setTimeout(resolve, 1500));
     const lista = Object.values(Mascotas);
-
     if (lista.length === 0) {
         alert("No hay mascotas registradas");
         return;
     }
-
+    await delay(1500);
     let mensaje = "Lista de Mascotas Registradas:\n\n";
     lista.forEach((mascota, index) => {
         mensaje += `${index + 1}. ${mascota.nombre} (${mascota.Especie}) - Edad: ${mascota.edad}, Peso: ${mascota.peso}kg, Estado: ${mascota.salud}\n`;
@@ -190,16 +190,17 @@ function listarMascotas() {
 }
 
 
-function buscarMascota() {
+async function buscarMascota() {
+    await new Promise(resolve => setTimeout(resolve, 1500));
     var nombreBuscado = prompt("Ingrese el nombre a buscar");
     if (!nombreBuscado || !soloLetras.test(nombreBuscado.trim())) {
         alert("El nombre solo puede contener letras y espacios.");
         return;
     }
-
     const mascotasArray = Object.values(Mascotas);
-    const resultados = mascotasArray.filter(m => m.nombre === nombreBuscado.trim());
 
+    const resultados = mascotasArray.filter(m => m.nombre === nombreBuscado.trim());
+    await delay(1500);
     if (resultados.length === 0) {
         alert("No se encontró ninguna mascota con ese nombre.");
     } else {
@@ -211,7 +212,8 @@ function buscarMascota() {
     }
 }
 
-function actualizarSaludMascota() {
+async function actualizarSaludMascota() {
+    await new Promise(resolve => setTimeout(resolve, 1000));
     let nombreMascota = prompt("Ingrese el nombre de la mascota a actualizar:");
     if (!nombreMascota || !soloLetras.test(nombreMascota.trim())) {
         alert("El nombre solo puede contener letras y espacios.");
@@ -241,13 +243,15 @@ function actualizarSaludMascota() {
             alert("Opción no válida. Por favor, elige un estado de salud válido.");
             return;
     }
+    await delay(1000);
 
     alert(`Estado de salud actualizado para ${mascota.Id_Mascota} ${mascota.nombre}: ${mascota.salud}`);
 }
 
 let opcion;
 
-function eliminar_mascota() {
+async function eliminar_mascota() {
+    await new Promise(resolve => setTimeout(resolve, 2000));
     let nombreMascota = prompt("Ingrese el nombre de la mascota a eliminar:");
     if (!nombreMascota || !soloLetras.test(nombreMascota.trim())) {
         alert("El nombre solo puede contener letras y espacios.");
@@ -273,11 +277,13 @@ function eliminar_mascota() {
     const confirmar = confirm(`¿Está seguro que desea eliminar a ${mascotaEncontrada.nombre}?`);
     if (confirmar) {
         delete Mascotas[claveAEliminar];
+        await delay(2000);
         alert(`Mascota ${mascotaEncontrada.nombre} eliminada correctamente.`);
     }
 }
 
-function listarMascotasDueño() {
+async function listarMascotasDueño() {
+    
     let idDueño = prompt("Ingrese el ID del dueño (ejemplo: _001):");
 
     const mascotasArray = Object.values(Mascotas);
@@ -311,19 +317,19 @@ async function menuPrincipal() {
               await RegistrarMascota();
               break;
           case 3:
-              listarMascotas();
+              await listarMascotas();
               break;
           case 4:
-              buscarMascota();
+              await buscarMascota();
               break;
           case 5:
-              actualizarSaludMascota();
+              await actualizarSaludMascota();
               break;
           case 6:
-              eliminar_mascota();
+              await eliminar_mascota();
               break;
           case 7:
-              listarMascotasDueño();
+              await listarMascotasDueño();
               break;
           case 8:
               alert("Gracias por usar mi programa, hasta luego!, fuerza G");
