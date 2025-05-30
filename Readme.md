@@ -30,6 +30,60 @@ Bienvenido a **Mis Mascotas**, una aplicación sencilla basada en JavaScript pur
 
  Cuando eliges una opción, el sistema te guiará paso a paso por medio de ventanas prompt.
 
+## Aplicacion de asincronia
+
+Debido al uso exclusivo de solo entrada y salida de informacion mediante prompt y alert se aplicó "Async/wait" para manejar los tiempos o simular la obtencion de datos si se le implementa alguna API o bases de datos. La sintaxis en el proyecto fue la siguiente:
+<pre><code>await new Promise(resolve => setTimeout(resolve, 1500));
+await delay(500ms)</code></pre>
+
+Sin embargo se tuvieron que agregar las siguientes lineas de codigo para el correcto funcionamiento: 
+
+Se agrego al inicio del archivo JS:
+<pre><code>function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}</code></pre>
+
+y agregar "await" a las funciones puestas en el menu:
+<pre><code>async function menuPrincipal() {
+  let opcion;
+  do {
+      opcion = parseInt(prompt("BIENVENIDO A MIS MASCOTAS\n1. Registrar Dueño\n2. Registrar mascota\n3. Listar mascotas\n4. Buscar mascota\n5. Actualizar estado de salud de una mascota\n6. Eliminar mascota\n7. Listar mascotas por dueño\n8. Salir"));
+
+      switch (opcion) {
+          case 1:
+              await registrarDueño();
+              break;
+          case 2:
+              await RegistrarMascota();
+              break;
+          case 3:
+              await listarMascotas();
+              break;
+          case 4:
+              await buscarMascota();
+              break;
+          case 5:
+              await actualizarSaludMascota();
+              break;
+          case 6:
+              await eliminar_mascota();
+              break;
+          case 7:
+              await listarMascotasDueño();
+              break;
+          case 8:
+              alert("Gracias por usar mi programa, hasta luego!, fuerza G");
+              break;
+          default:
+              alert("Ingresó un número incorrecto");
+              break;
+      }
+
+  } while (opcion !== 8);
+}</code></pre>
+
+
+
 ## 📋 Validaciones Incluidas
 
 Nombres solo permiten letras y espacios.
